@@ -1,8 +1,8 @@
-import * as PIXI from "./pixi.mjs";
+import { Application, Graphics, Assets } from "./pixi.mjs";
 import { assetsMap } from "./assetsMap.js";
 
 (async () => {
-  const app = new PIXI.Application();
+  const app = new Application();
 
   await app.init({
     background: "gray",
@@ -11,7 +11,14 @@ import { assetsMap } from "./assetsMap.js";
     height: 800,
   });
 
-  const textures = await PIXI.Assets.load(assetsMap.sprites);
-  console.log(textures);
+  const textures = await Assets.load(assetsMap.sprites);
+
+  const marker = new Graphics();
+  marker.beginFill(0xff0000, 1);
+  marker.drawCircle(0, 0, 5);
+  marker.endFill();
+
+  app.stage.addChild(marker);
+  app.stage.position.set(800 / 2, 800 / 2);
   document.body.appendChild(app.canvas);
 })();
