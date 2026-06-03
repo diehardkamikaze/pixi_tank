@@ -13,6 +13,10 @@ export const assetsMap = {
 
     { alias: "TrackAFrame1", src: "../assets/parts/tracks/TrackAFrame1.png" },
 
+    { alias: "TrackСFrame1", src: "../assets/parts/tracks/TrackСFrame1.png" },
+
+    { alias: "TrackСFrame2", src: "../assets/parts/tracks/TrackСFrame2.png" },
+
     { alias: "TrackAFrame2", src: "../assets/parts/tracks/TrackAFrame2.png" },
 
     { alias: "MediumShell", src: "../assets/parts/bullets/MediumShell.png" },
