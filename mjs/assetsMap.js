@@ -2,7 +2,7 @@ export const assetsMap = {
   sprites: [
     {
       alias: "GunConnectorD",
-      src: "../assets/parts/gun_connectors/GunConnectorD.png",
+      src: "./assets/parts/gun_connectors/GunConnectorD.png",
     },
 
     { alias: "HeavyGunB", src: "./assets/parts/guns/HeavyGunB.png" },
