@@ -1,6 +1,7 @@
 import { Application, Graphics, Assets, Rectangle } from "./pixi.mjs";
 import { assetsMap } from "./assetsMap.js";
 import { Tank } from "./Tank.js";
+import { TweenManager, Tween } from "./Tween.js";
 
 (async () => {
   const app = new Application();
@@ -19,39 +20,47 @@ import { Tank } from "./Tank.js";
   marker.drawCircle(0, 0, 5);
   marker.endFill();
   const tank = new Tank(textures);
-  tank.view.visible = false;
   app.stage.addChild(tank.view);
-  app.stage.addChild(marker);
   app.stage.position.set(800 / 2, 800 / 2);
   document.body.appendChild(app.canvas);
 
-  app.stage.on("pointerdown", (event) => {
-    const data = event.data;
-    const position = data.getLocalPosition(app.stage);
-    app.stage.addChild(
-      new Graphics()
-        .beginFill("red", 1)
-        .drawCircle(position.x, position.y, 10)
-        .endFill(),
+  const tweenManager = new TweenManager(app.ticker);
+  const moveTank = ({ data }) => {
+    const distanceToCenter = data.getLocalPosition(app.stage);
+    const distanceToTank = data.getLocalPosition(tank.view);
+    const angle = Math.atan2(distanceToTank.y, distanceToTank.x);
+
+    const move = () => {
+      tweenManager.createTween(
+        tank,
+        3000,
+        {
+          x: distanceToCenter.x,
+          y: distanceToCenter.y,
+        },
+        {
+          onFinish: () => tank.stopTracks(),
+        },
+      );
+    };
+
+    tweenManager.createTween(tank, 1000, { towerDirection: angle });
+
+    tweenManager.createTween(
+      tank,
+      2000,
+      { bodyDirection: angle },
+      {
+        onFinish: () => {
+          move();
+        },
+        onStart: () => tank.startTracks(),
+      },
     );
-  });
+  };
+
   app.stage.interactive = true;
   app.stage.interactiveChildren = false;
   app.stage.hitArea = new Rectangle(-400, -400, 800, 800);
-
-  const rect = new Graphics()
-    .beginFill("black", 1)
-    .drawRect(0, 0, 100, 100)
-    .endFill();
-  app.stage.addChild(rect);
-
-  let lastTime = 0;
-  let value = 0;
-  let stepValue = 0.1;
-  const offset = 200;
-  app.ticker.add(() => {
-    value += stepValue;
-    //rect.alpha = Math.cos(value);
-    rect.position.x = offset * Math.cos(value);
-  });
+  app.stage.on("pointerdown", moveTank, undefined);
 })();

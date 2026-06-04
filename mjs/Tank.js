@@ -8,6 +8,7 @@ export const createAnimatedSprite = (
   const newAnimatedSprite = new AnimatedSprite(textures);
   newAnimatedSprite.position.copyFrom(position);
   newAnimatedSprite.anchor.copyFrom(anchor);
+  newAnimatedSprite.animationSpeed = 0.5;
   return newAnimatedSprite;
 };
 
@@ -53,18 +54,42 @@ export class Tank {
       x: 80,
       y: 0,
     });
-    const tower = createSprite(textures["HeavyTowerB"]);
-    this._towerContainer.addChild(gunLeft, gunRight, gunConnector, tower);
-
-    this._view.addChild(this._towerContainer, this._bodyContainer);
+    const bigTower = createSprite(textures["HeavyTowerB"]);
+    this._towerContainer.addChild(gunLeft, gunRight, gunConnector);
+    this._towerContainer.addChild(bigTower);
+    this._view.addChild(this._bodyContainer, this._towerContainer);
   }
 
-  rotateTowerBy(angle) {
-    this._towerContainer.rotation += angle;
+  set towerDirection(value) {
+    this._towerContainer.rotation = value;
   }
 
-  rotateBodyBy(angle) {
-    this._bodyContainer.rotation += angle;
+  get towerDirection() {
+    return this._towerContainer.rotation;
+  }
+
+  set bodyDirection(value) {
+    this._bodyContainer.rotation = value;
+  }
+
+  get bodyDirection() {
+    return this._bodyContainer.rotation;
+  }
+
+  get x() {
+    return this._view.position.x;
+  }
+
+  set x(value) {
+    return (this._view.position.x = value);
+  }
+
+  get y() {
+    return this._view.position.y;
+  }
+
+  set y(value) {
+    return (this._view.position.y = value);
   }
 
   get view() {

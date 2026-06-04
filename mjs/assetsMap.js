@@ -11,6 +11,8 @@ export const assetsMap = {
 
     { alias: "HeavyTowerB", src: "../assets/parts/towers/HeavyTowerB.png" },
 
+    { alias: "MediumTowerA", src: "../assets/parts/towers/MediumTowerA.png" },
+
     { alias: "TrackAFrame1", src: "../assets/parts/tracks/TrackAFrame1.png" },
 
     { alias: "TrackСFrame1", src: "../assets/parts/tracks/TrackСFrame1.png" },
