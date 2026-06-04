@@ -19,6 +19,7 @@ import { Tank } from "./Tank.js";
   marker.drawCircle(0, 0, 5);
   marker.endFill();
   const tank = new Tank(textures);
+  tank.view.visible = false;
   app.stage.addChild(tank.view);
   app.stage.addChild(marker);
   app.stage.position.set(800 / 2, 800 / 2);
@@ -37,4 +38,20 @@ import { Tank } from "./Tank.js";
   app.stage.interactive = true;
   app.stage.interactiveChildren = false;
   app.stage.hitArea = new Rectangle(-400, -400, 800, 800);
+
+  const rect = new Graphics()
+    .beginFill("black", 1)
+    .drawRect(0, 0, 100, 100)
+    .endFill();
+  app.stage.addChild(rect);
+
+  let lastTime = 0;
+  let value = 0;
+  let stepValue = 0.1;
+  const offset = 200;
+  app.ticker.add(() => {
+    value += stepValue;
+    //rect.alpha = Math.cos(value);
+    rect.position.x = offset * Math.cos(value);
+  });
 })();
